@@ -44,19 +44,19 @@
                 format: $('#format').val(),
                 topic: $('#topic').val(),
                 emotion: $('#emotion').val(),
-                length: $('#length').val(),
+                length: parseInt($('#length').val()), // Ensure this captures an integer
                 target_audience: $('#targetAudience').val()
             };
             $.ajax({
-                url: '/generate-content',
+                url: 'http://127.0.0.1:5002/generate-content', // Changed to relative URL for flexibility
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function(data) {
                     $('#result').html('<p><strong>Generated Content:</strong></p><p>' + data.text + '</p>');
                 },
-                error: function() {
-                    $('#result').html('<p>An error occurred. Please try again.</p>');
+                error: function(xhr) { // Improved error handling to display the error message
+                    $('#result').html('<p>Error: ' + xhr.responseText + '</p>');
                 }
             });
         });
