@@ -1,12 +1,17 @@
 import os
+import requests
 from flask import Flask, request, jsonify
 import openai
+from flask_cors import CORS
 
 
-app = Flask(__name__)
 
 # Initialize OpenAI client with API Key
 api_key = 'api key here'
+
+# Initialize Flask application
+app = Flask(__name__)
+CORS(app)
 
 @app.route('/generate-content', methods=['POST'])
 def generate_content():
@@ -39,7 +44,7 @@ def generate_content():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-    # Define a route to serve the main page
+   
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
