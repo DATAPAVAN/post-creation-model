@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Content Generator</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Marketing Content Generator</h2>
+    <form id="contentForm">
+        <div class="form-group">
+            <label for="format">Content Format:</label>
+            <input type="text" class="form-control" id="format" required placeholder="e.g., LinkedIn post">
+        </div>
+        <div class="form-group">
+            <label for="topic">Topic:</label>
+            <input type="text" class="form-control" id="topic" required placeholder="e.g., Artificial Intelligence">
+        </div>
+        <div class="form-group">
+            <label for="emotion">Emotion:</label>
+            <input type="text" class="form-control" id="emotion" placeholder="e.g., excitement">
+        </div>
+        <div class="form-group">
+            <label for="length">Length:</label>
+            <input type="number" class="form-control" id="length" placeholder="Maximum words">
+        </div>
+        <div class="form-group">
+            <label for="targetAudience">Target Audience:</label>
+            <input type="text" class="form-control" id="targetAudience" placeholder="e.g., tech enthusiasts">
+        </div>
+        <button type="submit" class="btn btn-primary">Generate Content</button>
+    </form>
+    <div id="result" class="mt-4"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#contentForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = {
+                format: $('#format').val(),
+                topic: $('#topic').val(),
+                emotion: $('#emotion').val(),
+                length: $('#length').val(),
+                target_audience: $('#targetAudience').val()
+            };
+            $.ajax({
+                url: '/generate-content',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    $('#result').html('<p><strong>Generated Content:</strong></p><p>' + data.text + '</p>');
+                },
+                error: function() {
+                    $('#result').html('<p>An error occurred. Please try again.</p>');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
